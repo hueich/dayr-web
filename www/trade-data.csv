@@ -1,0 +1,51 @@
+Location,FromCount,FromItem,ToCount,ToItem
+Magnitogorsk,1,Potato,50,Nail
+Magnitogorsk,1,Moonshine,1,Steel cable
+Magnitogorsk,1,Chitin,100,Scrap
+Magnitogorsk,1,Rope,1,Steel
+Magnitogorsk,1,Corn,50,Lead
+Chelyabinsk,1,Colloidal sulfur,20,Potato
+Chelyabinsk,1,Car battery,5,Moonshine
+Chelyabinsk,10,Steel,1,Bicycle spare parts
+Chelyabinsk,10,Steel,1,Motorcycle spare parts
+Chelyabinsk,10,Steel,1,Auto spare parts
+Tyumen,1,Sulfuric acid,2000,Diesel
+Tyumen,1,Sulfuric acid,1000,Gasoline
+Tyumen,10,Steel,1,Wheat grains
+Tyumen,10,Threads,1,Pasta
+Tyumen,5,Salt,1,Flour
+Omsk,10,Potato,1,Animal skin
+Omsk,2,Steel cable,1,Potassium nitrate
+Omsk,2,Tomato,1,Raw meat
+Omsk,1,Honey,10,Soap
+Omsk,2,Apple,1,Bone
+Krasnoyarsk,200,Sugar,1,Cement
+Krasnoyarsk,1,Vodka,50,Fire brick
+Krasnoyarsk,1,Tea bags,5,Tomato
+Krasnoyarsk,20,Coffee,1,Chlorcystamine
+Krasnoyarsk,50,Salt,1,Bryocarm
+Magnitogorsk (Sanya),100,Chitin,1,Chitin armor set
+Magnitogorsk (Sanya),1,Steel,10,Makarov handgun cartridge case
+Magnitogorsk (Sanya),1,Steel,10,Nagant revolver cartridge
+Magnitogorsk (Sanya),1,Steel,5,AK-74 cartridge case
+Magnitogorsk (Sanya),1,Steel,5,Rifle cartridge case
+Sverdlovsk,2000,Gasoline,1,Colloidal sulfur
+Sverdlovsk,200,Flour,1,Car battery
+Sverdlovsk,10,Steel,1,Battery
+Sverdlovsk,5,Soap,1,Sulfuric acid
+Sverdlovsk,25,Lead,1,Tape
+Petropavlovsk,100,Nail,1,Tea bags
+Petropavlovsk,1,Steel cable,20,Cigarettes
+Petropavlovsk,1,Honey,2,Cabbage
+Petropavlovsk,1,Soap,1,Rope
+Petropavlovsk,1,Bone,1,Corn
+Novosibirsk,1,Tea bags,5,Sugar
+Novosibirsk,1,Potassium nitrate,2,Vodka
+Novosibirsk,2000,Gasoline,1,Homemade wine
+Novosibirsk,1,Chlorcystamine,2,Honey
+Novosibirsk,1,Bryocarm,10,Apple
+Irkutsk,1,Cement,50,Coffee
+Irkutsk,1,Fire brick,5,Salt
+Irkutsk,1,Cigarettes,2,Paper
+Irkutsk,20,Nail,1,Rice grains
+Irkutsk,1,Tea bags,5,Cucumber

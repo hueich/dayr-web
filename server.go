@@ -29,7 +29,7 @@ func (h *filterHostHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 func main() {
 	flag.Parse()
 
-	log.Printf("Starting to listen on port %d serving host %s", *port, *host)
+	log.Printf("Starting to listen on port %d serving host %s using directory %s", *port, *host, *wwwDir)
 	// TODO: Use TLS.
 	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", *port), &filterHostHandler{*host, http.FileServer(http.Dir(*wwwDir))}))
 }

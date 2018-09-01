@@ -1,3 +1,5 @@
+'use strict';
+
 const Directions = Object.freeze({
     TO: Symbol("to"),
     FROM: Symbol("from")

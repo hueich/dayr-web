@@ -1,15 +1,20 @@
+const Directions = Object.freeze({
+    TO: Symbol("to"),
+    FROM: Symbol("from")
+});
+
+var tradeDataPath = 'data/trade-data.csv';
+
 var items = new Set();
 var trades = new Set();
 var fromMap = new Map();
 var toMap = new Map();
 
-Papa.parse('trade-data.csv', {
+Papa.parse(tradeDataPath, {
     download: true,
     header: true,
     dynamicTyping: true,
     complete: function(results) {
-        console.log(results);
-
         results.data.forEach(function(row) {
             trades.add(row);
             items.add(row.FromItem);
@@ -25,84 +30,76 @@ Papa.parse('trade-data.csv', {
             }
             toMap.get(row.ToItem).add(row);
         });
-        console.log(items);
-        console.log(trades);
-        console.log(fromMap);
-        console.log(toMap);
 
         var sortedItems = Array.from(items.values()).sort();
-        console.log(sortedItems);
-        $('#input-item option').remove();
+        var select = $('#input-item').empty();
         sortedItems.forEach(function(item) {
-            $('#input-item').append($(document.createElement('option')).text(item));
+            select.append($(document.createElement('option')).text(item));
         });
     }
 });
 
-var getRoutesTo = function(count, item, used, starting) {
-    used = used || new Set();
-    starting = starting || item;
-    var routes = [];
-    var tradables = toMap.get(item);
-    if (!tradables) {
-        return [];
-    }
-    tradables.forEach(function(trade) {
-        if (used.has(trade) || (used.size > 0 && trade.ToItem == starting)) {
-            return;
-        }
-        var fromCount = trade.FromCount * count / trade.ToCount;
-        var transaction = {direction: 'from', count: fromCount, trade: trade};
-        used.add(trade);
-        var subRoutes = getRoutesTo(fromCount, trade.FromItem, used, starting);
-        used.delete(trade);
-        routes.push([transaction].concat(subRoutes));
-    });
-    if (routes.length == 1) {
-        routes = routes[0];
-    }
-    return routes;
-};
-
-var getRoutesFrom = function(count, item, used, starting) {
-    console.log('used:', used);
-    console.log('starting:', starting);
-    var used = used || new Set();
-    var starting = starting || item;
-    console.log('used:', used);
-    console.log('starting:', starting);
-    var routes = [];
-    var tradables = fromMap.get(item);
-    if (!tradables) {
-        return [];
-    }
-    tradables.forEach(function(trade) {
-        if (used.has(trade) || (used.size > 0 && trade.FromItem == starting)) {
-            return;
-        }
-        var toCount = trade.ToCount * count / trade.FromCount;
-        var transaction = {direction: 'to', count: toCount, trade: trade};
-        console.log('transaction:', transaction);
-        used.add(trade);
-        var subRoutes = getRoutesFrom(toCount, trade.ToItem, used, starting);
-        used.delete(trade);
-        console.log('subRoutes:', subRoutes);
-        routes.push([transaction].concat(subRoutes));
-        console.log('routes:', routes);
-    });
-    if (routes.length == 1) {
-        routes = routes[0];
-    }
-    return routes;
-};
-
-$('#input-route').click(function() {
-    console.log('processing stuff...');
-    if ($('#input-direction').val() == 'To') {
-        var routes = getRoutesTo(parseInt($('#input-count').val()), $('#input-item').val());
-        console.log(routes);
-    } else {
-        var routes = getRoutesFrom(parseInt($('#input-count').val()), $('#input-item').val());
-        console.log(routes);
+$('#input-form').submit(function(event) {
+    event.preventDefault();
+    $('#error-message').empty();
+    var direction = $('#input-direction').val() == 'To' ? Directions.TO : Directions.FROM;
+    var tradeMap = direction === Directions.TO ? toMap : fromMap;
+    var count = parseInt($('#input-count').val());
+    var item = $('#input-item').val();
+    var mainGraph = $('#main-graph').empty();
+    var routes = getRoutes(direction, count, item, tradeMap, mainGraph);
+    if (routes.length == 0) {
+        $('#error-message').text('No routes found!');
     }
 });
+
+var getRoutes = function(direction, count, item, tradeMap, parent, used, starting) {
+    var used = used || new Set();
+    var starting = starting || item;
+    var routes = [];
+    var tradables = tradeMap.get(item);
+    if (!tradables) {
+        return [];
+    }
+    tradables.forEach(function(trade) {
+        if (direction === Directions.TO) {
+            var srcCount = trade.ToCount;
+            var srcItem = trade.ToItem;
+            var dstCount = trade.FromCount;
+            var dstItem = trade.FromItem;
+        } else {
+            var srcCount = trade.FromCount;
+            var srcItem = trade.FromItem;
+            var dstCount = trade.ToCount;
+            var dstItem = trade.ToItem;
+        }
+        if (used.has(trade) || (used.size > 0 && srcItem == starting)) {
+            return;
+        }
+        var multiplier = count / srcCount;
+        var newCount = dstCount * multiplier;
+        var transaction = {direction: direction, mult: multiplier, trade: trade};
+        var node = createNode(transaction);
+        if (direction === Directions.FROM || !parent.hasClass('node')) {
+            parent.append(node);
+        } else {
+            parent.parent().append(node);
+            node.append(parent.detach());
+        }
+        used.add(trade);
+        var subRoutes = getRoutes(direction, newCount, dstItem, tradeMap, node, used, starting);
+        used.delete(trade);
+        routes.push([transaction].concat(subRoutes));
+    });
+    return routes;
+};
+
+var createNode = function(transaction) {
+    var trade = transaction.trade;
+    var fromCount = transaction.mult * trade.FromCount;
+    var toCount = transaction.mult * trade.ToCount;
+    var node = $(document.createElement('div'));
+    node.addClass('node');
+    node.html(`${fromCount} <a href="https://dayr.wikia.com/wiki/${trade.FromItem}" target="_blank">${trade.FromItem}</a> ⇒ ${toCount} <a href="https://dayr.wikia.com/wiki/${trade.ToItem}" target="_blank">${trade.ToItem}</a> @ ${trade.Location}`);
+    return node;
+}

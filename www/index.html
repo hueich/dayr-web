@@ -2,17 +2,17 @@
     <head>
         <title>Day R Survival Trade Router</title>
         <link rel="stylesheet" href="css/style.css">
-        <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous"> -->
     </head>
     <body>
         <h1>Day R Survival Trade Router</h1>
-        This tool helps you plan your survivor camp trade routes in the Day R Survival game.
+        This tool helps you plan your survivor camp trade routes in the <a href="https://www.facebook.com/DayR.game/" target="_blank">Day R Survival</a> game (v.574).
 
         <div>
             <p>
                 <fieldset>
                     <legend>Trade parameters</legend>
                     <div>
+                    <form id="input-form">
                     <select id="input-direction" name="direction">
                         <option>To</option>
                         <option>From</option>
@@ -21,16 +21,17 @@
                     <select id="input-item" name="item">
                         <option>Loading...</option>
                     </select>
-                    <input id="input-route" type="button" value="Route!" />
+                    <input id="input-route" type="submit" value="Route!" />
+                    </form>
                     </div>
                     <div id="error-message" style="color: red;"></div>
                 </fieldset>
             </p>
         </div>
 
+        <div id="main-graph"></div>
+
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-        <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script> -->
-        <!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script> -->
         <script src="js/papaparse.min.js"></script>
         <script src="js/main.js"></script>
     </body>

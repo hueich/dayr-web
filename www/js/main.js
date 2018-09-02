@@ -44,7 +44,7 @@ Papa.parse(tradeDataPath, {
 $('#input-form').submit(function(event) {
     event.preventDefault();
     $('#error-message').empty();
-    var direction = $('#input-direction').val() == 'To' ? Directions.TO : Directions.FROM;
+    var direction = $('#input-direction').val() == 'Want' ? Directions.TO : Directions.FROM;
     var tradeMap = direction === Directions.TO ? toMap : fromMap;
     var count = parseInt($('#input-count').val());
     var item = $('#input-item').val();

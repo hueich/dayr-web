@@ -1,60 +1,96 @@
 'use strict';
 
 const Directions = Object.freeze({
-    TO: Symbol("to"),
-    FROM: Symbol("from")
+    TO: Symbol('to'),
+    FROM: Symbol('from')
 });
 
-var tradeDataPath = 'data/trade-data.csv';
+const tradeDataPaths = [
+    ['v.574', 'data/trade-data-v574.csv'],
+];
 
+var tradeDataMap = new Map();
 var items = new Set();
 var trades = new Set();
 var fromMap = new Map();
 var toMap = new Map();
 
-Papa.parse(tradeDataPath, {
-    download: true,
-    header: true,
-    dynamicTyping: true,
-    complete: function(results) {
-        results.data.forEach(function(row) {
-            trades.add(row);
-            items.add(row.FromItem);
-            items.add(row.ToItem);
+var init = function() {
+    tradeDataPaths.forEach(function(pair) {
+        tradeDataMap.set(pair[0], pair[1]);
+        $('#input-version').append($(document.createElement('option')).text(pair[0]));
+    });
+    bindEvents();
+    $('#input-version').change();
+};
 
-            if (!fromMap.has(row.FromItem)) {
-                fromMap.set(row.FromItem, new Set());
-            }
-            fromMap.get(row.FromItem).add(row);
+var bindEvents = function() {
+    $('#input-version').change(function(event) {
+        clearError();
+        $('#main-graph').empty();
+        $('#input-item').empty().append($(document.createElement('option')).text('Loading...'));
+        var dataPath = tradeDataMap.get($(event.target).val());
+        if (!dataPath) {
+            showError('Version not found!');
+            return;
+        }
+        loadData(dataPath);
+    });
 
-            if (!toMap.has(row.ToItem)) {
-                toMap.set(row.ToItem, new Set());
-            }
-            toMap.get(row.ToItem).add(row);
-        });
+    $('#input-form').submit(function(event) {
+        event.preventDefault();
+        clearError();
+        var direction = $('#input-direction').val() == 'Want' ? Directions.TO : Directions.FROM;
+        var tradeMap = direction === Directions.TO ? toMap : fromMap;
+        var count = parseInt($('#input-count').val());
+        var item = $('#input-item').val();
+        var fractional = $('#input-fractional:checked').val() === 'fractional';
+        var mainGraph = $('#main-graph').empty();
+        var routes = getRoutes(direction, count, item, fractional, tradeMap, mainGraph);
+        if (routes.length == 0) {
+            showError('No routes found!');
+        }
+    });
+};
 
-        var sortedItems = Array.from(items.values()).sort();
-        var select = $('#input-item').empty();
-        sortedItems.forEach(function(item) {
-            select.append($(document.createElement('option')).text(item));
-        });
-    }
-});
+var loadData = function(tradeDataPath) {
+    Papa.parse(tradeDataPath, {
+        download: true,
+        header: true,
+        dynamicTyping: true,
+        complete: function(results) {
+            items.clear();
+            trades.clear();
+            fromMap.clear();
+            toMap.clear();
 
-$('#input-form').submit(function(event) {
-    event.preventDefault();
-    $('#error-message').empty();
-    var direction = $('#input-direction').val() == 'Want' ? Directions.TO : Directions.FROM;
-    var tradeMap = direction === Directions.TO ? toMap : fromMap;
-    var count = parseInt($('#input-count').val());
-    var item = $('#input-item').val();
-    var fractional = $('#input-fractional:checked').val() === 'fractional';
-    var mainGraph = $('#main-graph').empty();
-    var routes = getRoutes(direction, count, item, fractional, tradeMap, mainGraph);
-    if (routes.length == 0) {
-        $('#error-message').text('No routes found!');
-    }
-});
+            results.data.forEach(function(row) {
+                trades.add(row);
+                items.add(row.FromItem);
+                items.add(row.ToItem);
+
+                if (!fromMap.has(row.FromItem)) {
+                    fromMap.set(row.FromItem, new Set());
+                }
+                fromMap.get(row.FromItem).add(row);
+
+                if (!toMap.has(row.ToItem)) {
+                    toMap.set(row.ToItem, new Set());
+                }
+                toMap.get(row.ToItem).add(row);
+            });
+
+            var sortedItems = Array.from(items.values()).sort();
+            var select = $('#input-item').empty();
+            sortedItems.forEach(function(item) {
+                select.append($(document.createElement('option')).text(item));
+            });
+        },
+        error: function(error) {
+            showError(error.message);
+        },
+    });
+};
 
 var getRoutes = function(direction, count, item, fractional, tradeMap, parent, used, starting) {
     var used = used || new Set();
@@ -112,4 +148,14 @@ var createNode = function(transaction) {
     node.addClass('node');
     node.html(`${fromCount} <a href="https://dayr.wikia.com/wiki/${trade.FromItem}" target="_blank">${trade.FromItem}</a> ⇒ ${toCount} <a href="https://dayr.wikia.com/wiki/${trade.ToItem}" target="_blank">${trade.ToItem}</a> @ ${trade.Location}`);
     return node;
+};
+
+var showError = function(message) {
+    $('#error-message').text(message);
+};
+
+var clearError = function() {
+    $('#error-message').empty();
 }
+
+init();

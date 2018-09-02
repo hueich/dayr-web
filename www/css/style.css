@@ -1,7 +1,4 @@
-body {
-    font-family: monospace;
-}
-input, select {
+body, input, select {
     font-family: monospace;
 }
 a {
@@ -11,7 +8,7 @@ form {
     margin-bottom: 0em;
 }
 .node {
-    margin-left: 1.5em;
+    margin-left: 1.3em;
 }
 .desc {
     font-size: 0.9em;

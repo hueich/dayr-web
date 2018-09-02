@@ -1,6 +1,8 @@
 <html>
     <head>
         <title>Day R Survival Trade Router</title>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
         <!-- Global site tag (gtag.js) - Google Analytics -->
         <script async src="https://www.googletagmanager.com/gtag/js?id=UA-125077823-1"></script>
         <script>
@@ -10,11 +12,11 @@
 
         gtag('config', 'UA-125077823-1');
         </script>
-        <link rel="stylesheet" href="css/style.css">
+        <link rel="stylesheet" href="css/style.css?20180902">
     </head>
     <body>
         <h1>Day R Survival Trade Router</h1>
-        <p>This tool helps you plan your survivor camp trade routes in the <a href="https://www.facebook.com/DayR.game/" target="_blank">Day R Survival</a> game (v.574).
+        <p>This tool helps you plan your survivor camp trade routes in the <a href="https://www.facebook.com/DayR.game/" target="_blank">Day R Survival</a> game (<select id="input-version" name="version"></select>).
         </p>
         <p><strong>Instructions:</strong>
             <ul>
@@ -42,7 +44,7 @@
                 <input id="input-route" type="submit" value="Route!" />
                 <br/>
                 <input id="input-fractional" name="fractional" type="checkbox" value="fractional" />
-                <span class="desc">Allow fractional trades.</span>
+                <span class="desc">Allow fractional trades</span>
                 </form>
                 <div id="error-message" style="color: red;"></div>
                 </div>
@@ -52,7 +54,7 @@
         <div id="main-graph"></div>
 
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-        <script src="js/papaparse.min.js"></script>
-        <script src="js/main.js"></script>
+        <script src="js/papaparse.min.js?20180902"></script>
+        <script src="js/main.js?20180902"></script>
     </body>
 </html>

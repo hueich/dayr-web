@@ -48,14 +48,15 @@ $('#input-form').submit(function(event) {
     var tradeMap = direction === Directions.TO ? toMap : fromMap;
     var count = parseInt($('#input-count').val());
     var item = $('#input-item').val();
+    var fractional = $('#input-fractional:checked').val() === 'fractional';
     var mainGraph = $('#main-graph').empty();
-    var routes = getRoutes(direction, count, item, tradeMap, mainGraph);
+    var routes = getRoutes(direction, count, item, fractional, tradeMap, mainGraph);
     if (routes.length == 0) {
         $('#error-message').text('No routes found!');
     }
 });
 
-var getRoutes = function(direction, count, item, tradeMap, parent, used, starting) {
+var getRoutes = function(direction, count, item, fractional, tradeMap, parent, used, starting) {
     var used = used || new Set();
     var starting = starting || item;
     var routes = [];
@@ -79,6 +80,13 @@ var getRoutes = function(direction, count, item, tradeMap, parent, used, startin
             return;
         }
         var multiplier = count / srcCount;
+        if (!fractional) {
+            if (direction === Directions.TO) {
+                multiplier = Math.ceil(multiplier);
+            } else {
+                multiplier = Math.floor(multiplier);
+            }
+        }
         var newCount = dstCount * multiplier;
         var transaction = {direction: direction, mult: multiplier, trade: trade};
         var node = createNode(transaction);
@@ -89,7 +97,7 @@ var getRoutes = function(direction, count, item, tradeMap, parent, used, startin
             node.append(parent.detach());
         }
         used.add(trade);
-        var subRoutes = getRoutes(direction, newCount, dstItem, tradeMap, node, used, starting);
+        var subRoutes = getRoutes(direction, newCount, dstItem, fractional, tradeMap, node, used, starting);
         used.delete(trade);
         routes.push([transaction].concat(subRoutes));
     });

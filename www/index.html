@@ -23,11 +23,12 @@
                 <li>Each indent shows the next chain in the trade route</li>
                 <li>Trades at the same indent mean that they are alternative trade options for the same item</li>
                 <li>Note that when you pick "Want", the item you want to trade for will end up at the bottom</li>
+                <li>Allowing fractional trade may show you a fraction of a trade, e.g. 0.5 Honey to 5 Soap</li>
             </ul>
         </p>
         <div>
             <fieldset>
-                <legend>Trade parameters</legend>
+                <legend>Trade criteria</legend>
                 <div>
                 <form id="input-form">
                 <select id="input-direction" name="direction">
@@ -39,9 +40,12 @@
                     <option>Loading...</option>
                 </select>
                 <input id="input-route" type="submit" value="Route!" />
+                <br/>
+                <input id="input-fractional" name="fractional" type="checkbox" value="fractional" />
+                <span class="desc">Allow fractional trades.</span>
                 </form>
-                </div>
                 <div id="error-message" style="color: red;"></div>
+                </div>
             </fieldset>
         </div>
 

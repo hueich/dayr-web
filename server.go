@@ -5,31 +5,44 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"regexp"
+	"strings"
 )
 
 var (
-	host   = flag.String("host", "localhost:8080", "Host to serve for")
+	hosts  = flag.String("hosts", "", "One or more comma-separated hosts to serve for")
 	port   = flag.Int("port", 8080, "Server port")
 	wwwDir = flag.String("wwwdir", "www", "Directory to serve")
+
+	regexAllowedIP = regexp.MustCompile(`^(127\.0\.0\.1|(192\.168|10\.\d+)\.\d+.\d+)$`)
 )
 
 type filterHostHandler struct {
-	Host    string
+	Hosts   []string
 	Handler http.Handler
 }
 
 func (h *filterHostHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	if r.Host != h.Host {
-		http.NotFound(w, r)
+	for _, host := range h.Hosts {
+		if r.Host == host {
+			h.Handler.ServeHTTP(w, r)
+			return
+		}
+	}
+	hostParts := strings.Split(r.Host, ":")
+	// TODO: Handle IPv6 addresses.
+	if hostParts[0] == "localhost" || regexAllowedIP.MatchString(hostParts[0]) {
+		h.Handler.ServeHTTP(w, r)
 		return
 	}
-	h.Handler.ServeHTTP(w, r)
+	http.NotFound(w, r)
 }
 
 func main() {
 	flag.Parse()
 
-	log.Printf("Starting to listen on port %d serving host %s using directory %s", *port, *host, *wwwDir)
+	hs := strings.Split(*hosts, ",")
+	log.Printf("Starting to listen on port=%d serving hosts=%s using directory=%s", *port, strings.Join(hs, ","), *wwwDir)
 	// TODO: Use TLS.
-	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", *port), &filterHostHandler{*host, http.FileServer(http.Dir(*wwwDir))}))
+	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", *port), &filterHostHandler{hs, http.FileServer(http.Dir(*wwwDir))}))
 }

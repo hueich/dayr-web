@@ -127,12 +127,7 @@ var getRoutes = function(direction, count, item, fractional, tradeMap, parent, u
         var newCount = dstCount * multiplier;
         var transaction = {direction: direction, mult: multiplier, trade: trade};
         var node = createNode(transaction);
-        if (direction === Directions.FROM || !parent.hasClass('node')) {
-            parent.append(node);
-        } else {
-            parent.parent().append(node);
-            node.append(parent.detach());
-        }
+        parent.append(node);
         used.add(trade);
         var subRoutes = getRoutes(direction, newCount, dstItem, fractional, tradeMap, node, used, starting);
         used.delete(trade);

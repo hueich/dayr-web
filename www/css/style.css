@@ -13,6 +13,23 @@ form {
 .desc {
     font-size: 0.9em;
 }
+.hidden {
+    display: none;
+}
+.table-card {
+    display: flex;
+    flex-wrap: wrap;
+}
+tr, th, td {
+    flex: none;
+    display: table-cell;
+}
+tr {
+    display: block;
+}
+.row-count {
+    text-align: right;
+}
 #main-graph {
     margin: 0.5em 0 0.5em 0;
 }

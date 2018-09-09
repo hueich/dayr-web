@@ -35,7 +35,7 @@ var bindEvents = function() {
             showError('Version not found!');
             return;
         }
-        loadData(dataPath);
+        loadData(dataPath, updateTable);
     });
 
     $('#input-form').submit(function(event) {
@@ -52,9 +52,19 @@ var bindEvents = function() {
             showError('No routes found!');
         }
     });
+
+    $('#input-table-button').click(function() {
+        if($('#input-table-button').val() === 'show') {
+            $('#input-table-button').val('hide');
+            $('#trade-table').removeClass('hidden');
+        } else {
+            $('#input-table-button').val('show');
+            $('#trade-table').addClass('hidden');
+        }
+    });
 };
 
-var loadData = function(tradeDataPath) {
+var loadData = function(tradeDataPath, callback) {
     Papa.parse(tradeDataPath, {
         download: true,
         header: true,
@@ -86,10 +96,39 @@ var loadData = function(tradeDataPath) {
             sortedItems.forEach(function(item) {
                 select.append($(document.createElement('option')).text(item));
             });
+
+            callback(trades);
         },
         error: function(error) {
             showError(error.message);
         },
+    });
+};
+
+var updateTable = function(trades) {
+    var tradeTable = $('#trade-table').empty();
+    var prevLoc = "";
+    var curCard = null;
+    trades.forEach(function(trade) {
+        console.log('prevLoc:', prevLoc);
+        console.log('trade.Location:', trade.Location);
+        if (prevLoc != trade.Location) {
+            curCard = $(document.createElement('table')).addClass('table-card');
+            var locCell = $(document.createElement('th')).attr('colspan', 5).text(trade.Location);
+            var headRow = $(document.createElement('tr')).addClass('table-location');
+            headRow.append(locCell);
+            curCard.append(headRow);;
+            tradeTable.append(curCard);
+            prevLoc = trade.Location;
+        }
+        var row = $(document.createElement('tr')).addClass('table-trade');
+        row.append($(document.createElement('td')).addClass('row-count').text(trade.FromCount));
+        row.append($(document.createElement('td')).addClass('row-item').html(`<a href="https://dayr.wikia.com/wiki/${trade.FromItem}" target="_blank">${trade.FromItem}</a>`));
+        row.append($(document.createElement('td')).text('⇒'));
+        row.append($(document.createElement('td')).addClass('row-count').text(trade.ToCount));
+        row.append($(document.createElement('td')).addClass('row-item').html(`<a href="https://dayr.wikia.com/wiki/${trade.ToItem}" target="_blank">${trade.ToItem}</a>`));
+        // row.html(`${trade.FromCount} <a href="https://dayr.wikia.com/wiki/${trade.FromItem}" target="_blank">${trade.FromItem}</a> ⇒ ${trade.ToCount} <a href="https://dayr.wikia.com/wiki/${trade.ToItem}" target="_blank">${trade.ToItem}</a>`);
+        curCard.append(row);
     });
 };
 

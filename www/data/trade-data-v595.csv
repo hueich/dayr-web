@@ -1,0 +1,54 @@
+Location,ToCount,ToItem,FromCount,FromItem
+Magnitogorsk (Sanya),1,Chitin armor set,100,Chitin
+Magnitogorsk (Sanya),10,Makarov handgun cartridge case,1,Steel
+Magnitogorsk (Sanya),10,Nagant revolver cartridge,1,Steel
+Magnitogorsk (Sanya),5,AK-74 cartridge case,1,Steel
+Magnitogorsk (Sanya),5,Rifle cartridge case,1,Steel
+Magnitogorsk,1,Cement,1,Electrodes
+Magnitogorsk,5,Fire brick,1,Chitin
+Magnitogorsk,100,Brick,10,Bone glue
+Magnitogorsk,10,Scrap,1,Flour
+Magnitogorsk,1,Steel cable,5,Prokozol
+Magnitogorsk,1,Cement,25,Sulfuric acid
+Chelyabinsk,10,Spark plug,1,Cement
+Chelyabinsk,1,Electrical cable,1,Steel cable
+Chelyabinsk,1,Electrodes,10000,Lead
+Chelyabinsk,1,Battery,1,Chlorcystamine
+Chelyabinsk,1,Car battery,50,Moonshine
+Chelyabinsk,1,Chainsaw,50,Pickles
+Sverdlovsk,2500,Lead,500,Machine oil
+Sverdlovsk,10,Auto spare parts,1,Spark plug
+Sverdlovsk,10,Motorcycle spare parts,3,Alcohol
+Sverdlovsk,10,Bicycle spare parts,5,Soap
+Sverdlovsk,1,Welder,100,Stew meat
+Tyumen,1,Colloidal sulfur,50,Auto spare parts
+Tyumen,1000,Machine oil,40,Cigarettes
+Tyumen,1000,Gasoline,1,Sulfuric acid
+Tyumen,2000,Diesel,1,Sulfuric acid
+Tyumen,10,Cabbage,25,Iron pipe
+Petropavlovsk,25,Tea,1,Colloidal sulfur
+Petropavlovsk,20,Cigarettes,1,Vodka
+Petropavlovsk,1,Cloth,5,Bone glue
+Petropavlovsk,1,Rope,1,Soap
+Petropavlovsk,10,Corn,25,Bryocarm
+Omsk,1,Potassium nitrate,25,Tea
+Omsk,1,Vodka,5,Coffee
+Omsk,5,Potato,1,Rope
+Omsk,10,Cucumber,25,Protozepam
+Omsk,1,Gas Mask Filter,10,Prepared skin
+Novosibirsk,50,Sugar,1,Potassium nitrate
+Novosibirsk,20,Coffee,1,Rubber parts
+Novosibirsk,1,Red wine,10,Metocaine
+Novosibirsk,1,Chemistry set,50,Pickled tomatoes
+Novosibirsk,10,Apple,25,Prepared skin
+Krasnoyarsk,1,Insulating tape,1,Sugar
+Krasnoyarsk,2,Tires,1,Pickled cabbage
+Krasnoyarsk,1,Rubber parts,250,Salt
+Krasnoyarsk,1,Pasta,25,Nail
+Krasnoyarsk,10,Wheat,10,Honey
+Irkutsk,25,Salt,10,Insulating tape
+Irkutsk,50,Paper,1000,Lead
+Irkutsk,2,Canned pork,5,Primer
+Irkutsk,1,Rice grains,10,Can
+Irkutsk,10,Tomato,5000,Gunpowder
+Irkutsk,20,Salt,1,Moonshine

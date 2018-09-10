@@ -6,6 +6,7 @@ const Directions = Object.freeze({
 });
 
 const tradeDataPaths = [
+    ['v.595', 'data/trade-data-v595.csv'],
     ['v.593', 'data/trade-data-v593.csv'],
     ['v.574', 'data/trade-data-v574.csv'],
 ];
@@ -19,8 +20,9 @@ var toMap = new Map();
 var init = function() {
     tradeDataPaths.forEach(function(pair) {
         tradeDataMap.set(pair[0], pair[1]);
-        $('#input-version').append($(document.createElement('option')).text(pair[0]));
+        $('#input-version').append($(document.createElement('option')).text(pair[0]).val(pair[0]));
     });
+    $('#input-version option:first-child').attr('selected', 'selected');
     bindEvents();
     $('#input-version').change();
 };

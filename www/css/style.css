@@ -13,6 +13,9 @@ form {
 .desc {
     font-size: 0.9em;
 }
+.error {
+    color: red;
+}
 #main-graph {
     margin: 0.5em 0 0.5em 0;
 }

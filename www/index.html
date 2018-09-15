@@ -33,7 +33,7 @@
             <fieldset>
                 <legend>Trade criteria</legend>
                 <div>
-                <form id="input-form">
+                <form id="input-form" action="javascript: return false;">
                 <select id="input-direction" name="direction">
                     <option>Want</option>
                     <option>Have</option>
@@ -47,7 +47,11 @@
                 <input id="input-fractional" name="fractional" type="checkbox" value="fractional" />
                 <span class="desc">Allow fractional trades</span>
                 </form>
-                <div id="error-message" style="color: red;"></div>
+                <div id="error-message" class="error">
+                    <noscript>
+                        This tool won't work properly without JavaScript.
+                    </noscript>
+                </div>
                 </div>
             </fieldset>
         </div>
